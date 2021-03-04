@@ -2,6 +2,7 @@ const express = require('express');
 const app = express ();
 const path = require("path");
 const fs = require('fs');
+const urlShortener = require("./urlShortener.js");
 
 //Part 4 Initial Data
 const processedInfo = fs.readFileSync('./data/urldata.json');
@@ -11,18 +12,13 @@ console.log(urlData);
 
 const publicPath = path.resolve(__dirname, 'public');
 
-
 app.use(express.static(publicPath));
 app.use(express.urlencoded({extended: false}));
 app.set('view engine', 'hbs');
 
 
-
-
-
 // Custom Middleware Function
 app.use((req, res, next) => {
-
     console.log('Method: ' + req.method);
     console.log('Path: ' + req.path);
     console.log(req.query);
@@ -39,30 +35,17 @@ app.get('/trending', function(req, res){
 });
 
 
-
-
 app.get('/shorten', function(req, res){
-    const longUrl = req.body.longUrl;
-    const shortenedURL = shorten(longUrl);
-    res.render('/shorten',  {'longUrl': shortenedURL})
-
+    res.render('shorten')
+    console.log(req);
 });
 
-
-app.get('/shorten', function(req, res){
-    const longUrl = req.body.longUrl;
-    const shortenedURL = shorten(longUrl);
-    res.render('/shorten',  {'longUrl': shortenedURL})
-
+app.post('/shorten', function(req, res) {
+    let ushort = new urlShortener.URLShortener(req.body.longUrl);
+    let shortUrl = ushort.shorten();
+    res.render('shorten', {'longUrl': shortUrl});
 });
 
-
-
-app.get('/expand', function(req, res){
-    
-    const longUrl = urlShortener.expand(urlData, req.query.shortUrl);
-
-});
 
 app.listen(3000);
 console.log("Server started; type CTRL+C to shut down ");

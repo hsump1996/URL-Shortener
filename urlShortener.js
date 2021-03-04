@@ -15,10 +15,9 @@ class URLShortener {
     //Valid Short URL: http://localhost:3000/sdf65x
 
     shorten() {
-        
-        let uniqueString = 'https://localhost:3000/';
+        let uniqueString = 'http://localhost:3000/';
         let lettersNumbers = 'abcdefghijklmnopqrstuvwxyz0123456789';
-        let lettersNumsLength = characters.length;
+        let lettersNumsLength = lettersNumbers.length;
         
         for (let i = 0; i < 6; i++ ) {
             uniqueString += lettersNumbers.charAt(Math.floor(Math.random() * lettersNumsLength));
@@ -39,6 +38,6 @@ class URLShortener {
         this.clickCount += 1;
 
     }
-
-
 }
+
+module.exports = {URLShortener}
