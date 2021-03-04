@@ -2,20 +2,22 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="/css/main.css">
-        <img src="img/logo.jpg" alt="Logo" width="100" height="100">
-        <h1> URL Shortener </h1>
+        <title> URL Shortener </title>
     </head>
     <body>
         <header>
-            <h2>Trending URLS</h2>
+            <img src="img/logo.jpg" alt="Logo" width="100" height="100">
+            <h1>URL Shortener</h1>
         </header>
         <nav>
-            <a href="/">Home</a>
-            <a href="/views/shorten">SHORTEN URL</a>
-            <a href="/views/expand">EXPAND URL</a>
+            <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/views/shorten">SHORTEN URL</a></li>
+            <li><a href="/views/expand">EXPAND URL</a></li>
+            </ul>
         </nav>
+        <h2>Trending URLS</h2>
         
         {{{body}}}
-    
     </body>
 </html>
