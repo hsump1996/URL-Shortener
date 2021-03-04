@@ -7,4 +7,38 @@ class URLShortener {
 
     }
 
+    // Returns Short URL
+    //Protocol: http or https
+    //Domain: localhost:3000
+    //UniqueString: 6 characters long and Contain only the lowercase alphabets
+    //Format: Protocol://Domain/UniqueString
+    //Valid Short URL: http://localhost:3000/sdf65x
+
+    shorten() {
+        
+        let uniqueString = 'https://localhost:3000/';
+        let lettersNumbers = 'abcdefghijklmnopqrstuvwxyz0123456789';
+        let lettersNumsLength = characters.length;
+        
+        for (let i = 0; i < 6; i++ ) {
+            uniqueString += lettersNumbers.charAt(Math.floor(Math.random() * lettersNumsLength));
+        }
+        
+        return uniqueString;
+    }
+
+    // Returns Expanded URL
+    expand() {
+
+
+    }
+
+    // Updates Click count
+    updateClickCount() {
+
+        this.clickCount += 1;
+
+    }
+
+
 }
