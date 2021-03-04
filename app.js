@@ -7,6 +7,8 @@ const urlShortener = require("./urlShortener.js");
 //Part 4 Initial Data
 const processedInfo = fs.readFileSync('./data/urldata.json');
 const urlData = JSON.parse(processedInfo);
+let shortUrls = new Array();
+
 console.log(urlData);
 
 
@@ -43,7 +45,9 @@ app.get('/shorten', function(req, res){
 app.post('/shorten', function(req, res) {
     let ushort = new urlShortener.URLShortener(req.body.longUrl);
     let shortUrl = ushort.shorten();
-    res.render('shorten', {'longUrl': shortUrl});
+    shortUrls.push(shortUrl);
+    console.log(shortUrls);
+    res.render('shorten', {'shortUrl': shortUrl});
 });
 
 
