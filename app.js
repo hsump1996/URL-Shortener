@@ -29,11 +29,17 @@ app.use((req, res, next) => {
 
 
 app.get('/', function(req, res){
-    res.render('trending')
+    urlData.sort((a, b) =>  b.clickCount - a.clickCount);
+    let arrayOfTrendingURLs = new Array();
+    for (let i = 0; i < 5; i++) {
+        arrayOfTrendingURLs.push(urlData[i].shortURL)
+    }
+
+    res.render('trending', {'arrayOfTrendingURLs' : arrayOfTrendingURLs});
 });
 
 app.get('/trending', function(req, res){
-    res.render('trending')
+    res.redirect('/');
 });
 
 
@@ -45,9 +51,25 @@ app.get('/shorten', function(req, res){
 app.post('/shorten', function(req, res) {
     let ushort = new urlShortener.URLShortener(req.body.longUrl);
     let shortUrl = ushort.shorten();
-    shortUrls.push(shortUrl);
-    console.log(shortUrls);
-    res.render('shorten', {'shortUrl': shortUrl});
+
+    //Handles the conflict when a shorten() method generates existing URL
+    if(shortUrls.includes(shortUrl)) {
+        shortUrl = ushort.shorten();
+    } else {
+        shortUrls.push(shortUrl);
+        urlData.push({'originalURL': req.body.longUrl, 'shortURL': shortUrl, 'clickCount': '0'});
+        res.render('shorten', {'shortUrl': shortUrl});
+    }
+});
+
+
+app.get('/expand', function(req, res) {
+    
+    let ushort = new urlShortener.URLShortener(req.query.shortUrl);
+    let shortUrlPassIn = req.query.shortUrl;
+    let originalUrl = ushort.expand(urlData, shortUrlPassIn);
+    ushort.updateClickCount();
+    res.render('expand', {'originalUrl': originalUrl});
 });
 
 

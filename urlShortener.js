@@ -8,12 +8,6 @@ class URLShortener {
     }
 
     // Returns Short URL
-    //Protocol: http or https
-    //Domain: localhost:3000
-    //UniqueString: 6 characters long and Contain only the lowercase alphabets
-    //Format: Protocol://Domain/UniqueString
-    //Valid Short URL: http://localhost:3000/sdf65x
-
     shorten() {
         let uniqueString = 'http://localhost:3000/';
         let lettersNumbers = 'abcdefghijklmnopqrstuvwxyz0123456789';
@@ -27,13 +21,23 @@ class URLShortener {
     }
 
     // Returns Expanded URL
-    expand() {
+    expand(urlData, shortUrlPassIn) {
+        
+        let originalUrl;
 
-
+        for (let i = 0; i < urlData.length; i++) {
+            if (urlData[i].shortURL === shortUrlPassIn) {
+                originalUrl =  urlData[i].originalURL;
+                console.log(urlData)
+                break;
+            }
+        }
+        return originalUrl;
     }
 
     // Updates Click count
     updateClickCount() {
+
 
         this.clickCount += 1;
 
