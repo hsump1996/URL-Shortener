@@ -1,5 +1,5 @@
 const express = require('express');
-const app = express ();
+const app = express();
 const path = require("path");
 const fs = require('fs');
 const urlShortener = require("./urlShortener.js");
@@ -10,7 +10,7 @@ const processedInfo = fs.readFileSync('./data/urldata.json');
 const urlData = JSON.parse(processedInfo);
 
 //Array that stores list of shortUrls
-let shortUrls = new Array();
+const shortUrls = new Array();
 
 console.log(urlData);
 
@@ -35,10 +35,10 @@ app.use((req, res, next) => {
 
 //Render an appropriate HTML page with a list of top 5 trending URLs.
 app.get('/', function(req, res){
-    urlData.sort((a, b) =>  b.clickCount - a.clickCount);
-    let arrayOfTrendingURLs = new Array();
+    urlData.sort((a,b) => b.clickCount - a.clickCount);
+    const arrayOfTrendingURLs = new Array();
     for (let i = 0; i < 5; i++) {
-        arrayOfTrendingURLs.push(urlData[i].shortURL)
+        arrayOfTrendingURLs.push(urlData[i].shortURL);
     }
 
     res.render('trending', {'arrayOfTrendingURLs' : arrayOfTrendingURLs});
@@ -51,17 +51,17 @@ app.get('/trending', function(req, res){
 
 // GET request --> /shorten: Renderr the form which the user can submit to shorten a URL
 app.get('/shorten', function(req, res){
-    res.render('shorten')
+    res.render('shorten');
     console.log(req);
 });
 
 
 // POST request --> /shorten: Given a original long URL, returns a short URL
 app.post('/shorten', function(req, res) {
-    let ushort = new urlShortener.URLShortener(req.body.longUrl);
+    const ushort = new urlShortener.URLShortener(req.body.longUrl);
     let shortUrl = ushort.shorten(req.body.longUrl);
 
-    //Handles the conflict when a shorten() method generates an existing shortUrl
+    //Extra Credit: Handles the conflict when a shorten() method generates an existing shortUrl
     if(shortUrls.includes(shortUrl)) {
         shortUrl = ushort.shorten(req.body.longUrl);
         //Add the new object to the global array holding all of the shortURLs.
@@ -90,10 +90,13 @@ app.post('/shorten', function(req, res) {
 // a short URL, returns the original long URL
 app.get('/expand', function(req, res) {
     
-    let ushort = new urlShortener.URLShortener(req.query.shortUrl);
-    let shortUrlPassIn = req.query.shortUrl;
-    let originalUrl = ushort.expand(urlData, shortUrlPassIn);
+    const ushort = new urlShortener.URLShortener(req.query.shortUrl);
+    const shortUrlPassIn = req.query.shortUrl;
+    const originalUrl = ushort.expand(urlData, shortUrlPassIn);
     ushort.updateClickCount();
+
+    //EXTRA CREDIT: The form will validate the URL because I made the requirement of input type to be an url by setting <input type="url" name="shortUrl">.	
+    //If an invalid URL is entered, then it will automatically pop an error message.
     res.render('expand', {'originalUrl': originalUrl});
 });
 
