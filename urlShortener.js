@@ -11,7 +11,7 @@ class URLShortener {
         let uniqueString = 'http://localhost:3000/';
         const lettersNumbers = 'abcdefghijklmnopqrstuvwxyz0123456789';
         const lettersNumsLength = lettersNumbers.length;
-        const enterAgain = 'No Parameter found. Please write the long url.';
+        const enterAgain = 'No Parameter found. Please enter the long url.';
         
 
         //Handles the case when there is no input value.

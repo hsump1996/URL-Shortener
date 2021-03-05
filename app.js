@@ -35,6 +35,8 @@ app.use((req, res, next) => {
 
 //Render an appropriate HTML page with a list of top 5 trending URLs.
 app.get('/', function(req, res){
+
+    //Sorts the urlDate Array descending
     urlData.sort((a,b) => b.clickCount - a.clickCount);
     const arrayOfTrendingURLs = new Array();
     for (let i = 0; i < 5; i++) {
@@ -71,8 +73,7 @@ app.post('/shorten', function(req, res) {
         res.render('shorten', {'shortUrl': shortUrl});
     
     // Case when shorten() method did not generate an existing shortUrl
-    } else {
-
+    } else if(!shortUrls.includes(shortUrl)) {
         // Case when the user entered no input value
         if (shortUrl.includes('Please')) {
             res.render('shorten', {'shortUrl': shortUrl});
@@ -93,7 +94,9 @@ app.get('/expand', function(req, res) {
     const ushort = new urlShortener.URLShortener(req.query.shortUrl);
     const shortUrlPassIn = req.query.shortUrl;
     const originalUrl = ushort.expand(urlData, shortUrlPassIn);
-    ushort.updateClickCount();
+
+    //Increments the value of clickCount property of the current URLShortener object by 1
+    ushort.updateClickCount(urlData, shortUrlPassIn);
 
     //EXTRA CREDIT: The form will validate the URL because I made the requirement of input type to be an url by setting <input type="url" name="shortUrl">.	
     //If an invalid URL is entered, then it will automatically pop an error message.
