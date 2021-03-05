@@ -8,16 +8,27 @@ class URLShortener {
     }
 
     // Returns Short URL
-    shorten() {
+    shorten(longUrl) {
         let uniqueString = 'http://localhost:3000/';
         let lettersNumbers = 'abcdefghijklmnopqrstuvwxyz0123456789';
         let lettersNumsLength = lettersNumbers.length;
+        let enterAgain = 'No Parameter found. Please write the long url.';
         
-        for (let i = 0; i < 6; i++ ) {
-            uniqueString += lettersNumbers.charAt(Math.floor(Math.random() * lettersNumsLength));
+
+        //Handles the case when there is no input value.
+        if (longUrl === '') {
+            return enterAgain;
+        
+        //If the Input was correctly entered, then randomly generate 6 letter + number combination
+        } else {
+
+            for (let i = 0; i < 6; i++ ) {
+                uniqueString += lettersNumbers.charAt(Math.floor(Math.random() * lettersNumsLength));
+            }
+            
+            return uniqueString;
+
         }
-        
-        return uniqueString;
     }
 
     // Returns Expanded URL
