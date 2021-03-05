@@ -37,6 +37,7 @@ class URLShortener {
         let originalUrl;
 
         for (let i = 0; i < urlData.length; i++) {
+            //Handles the case wherre it only chooses the long URL that matches the short URL
             if (urlData[i].shortURL === shortUrlPassIn) {
                 originalUrl =  urlData[i].originalURL;
                 console.log(urlData)

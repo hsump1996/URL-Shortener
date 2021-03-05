@@ -61,12 +61,23 @@ app.post('/shorten', function(req, res) {
     let ushort = new urlShortener.URLShortener(req.body.longUrl);
     let shortUrl = ushort.shorten(req.body.longUrl);
 
-    //Handles the conflict when a shorten() method generates existing URL
+    //Handles the conflict when a shorten() method generates an existing shortUrl
     if(shortUrls.includes(shortUrl)) {
-        shortUrl = ushort.shorten();
+        shortUrl = ushort.shorten(req.body.longUrl);
+        //Add the new object to the global array holding all of the shortURLs.
+        shortUrls.push(shortUrl);
+        //Creates an entry to JSON file urldata.json
+        urlData.push({'originalURL': req.body.longUrl, 'shortURL': shortUrl, 'clickCount': '0'});
+        res.render('shorten', {'shortUrl': shortUrl});
+    
+    // Case when shorten() method did not generate an existing shortUrl
     } else {
+
+        // Case when the user entered no input value
         if (shortUrl.includes('Please')) {
             res.render('shorten', {'shortUrl': shortUrl});
+        
+        // Case when user entered appropriate input value
         } else {
             shortUrls.push(shortUrl);
             urlData.push({'originalURL': req.body.longUrl, 'shortURL': shortUrl, 'clickCount': '0'});
